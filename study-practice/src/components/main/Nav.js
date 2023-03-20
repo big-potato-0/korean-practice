@@ -1,28 +1,25 @@
 import React from 'react'
 import clsx from 'clsx'
+import { useRouter } from 'next/router'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import { Grid, Toolbar, Typography, Divider, IconButton, Drawer } from '@material-ui/core'
 import { colors } from '../../theme/colors'
+import NavItem from './NavItem'
 
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
   navDivider: {
     backgroundColor: colors.UNBLEACHED_SILK,
     width: '100%',
     height: theme.spacing(1),
   },
   appBar: {
+    position: 'sticky',
+    backgroundColor: 'white',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -30,14 +27,15 @@ const useStyles = makeStyles((theme) => ({
     '&.MuiAppBar-positionFixed': {
       top: 'auto',
     },
+    borderBottom: `2px solid ${colors.BRIGHT_GREY}`,
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    marginLeft: drawerWidth,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -53,12 +51,9 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
   },
   content: {
     flexGrow: 1,
@@ -67,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    // // TODO: i shouldn't have to do this what the heck, only for home dir...
+    // [theme.breakpoints.up('sm')] : {
+    //   marginLeft: -drawerWidth,
+    // },
+    // marginLeft: 0,
     marginLeft: -drawerWidth,
   },
   contentShift: {
@@ -74,14 +74,23 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
-  },
-}))
+  //   // TODO: same here ^^
+  //   [theme.breakpoints.up('md')] : {
+  //     marginLeft: 0,
+  //   },
+  //   marginLeft: drawerWidth,
+      marginLeft: 0,
+    },
+  }
+))
 
 export default function Nav({ children }) {
   const classes = useStyles()
   const theme = useTheme()
+  const router = useRouter()
+  
   const [open, setOpen] = React.useState(false)
+  const currentPage = router.pathname
   
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -92,31 +101,31 @@ export default function Nav({ children }) {
   }
   
   return (
-    <div className={classes.root}>
-      <div
+    <Grid container>
+      <Grid item xs={12}
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant='h6' noWrap>
             Lessons
           </Typography>
         </Toolbar>
-      </div>
+      </Grid>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
-        anchor="left"
+        variant='persistent'
+        anchor='left'
         open={open}
         classes={{
           paper: classes.drawerPaper,
@@ -127,7 +136,11 @@ export default function Nav({ children }) {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Divider className={classes.navDivider}/>
+        <Divider className={classes.navDivider} />
+        <NavItem page="/" text="Home" onClick={handleDrawerClose} currentPage={currentPage}/>
+        <NavItem page="/togo" text="To Go" onClick={handleDrawerClose} currentPage={currentPage}/>
+        <Divider />
+        <NavItem page="/directory" text="Directory" onClick={handleDrawerClose} currentPage={currentPage}/>
       </Drawer>
       <div
         className={clsx(classes.content, {
@@ -138,6 +151,6 @@ export default function Nav({ children }) {
           {children}
         </div>
       </div>
-    </div>
+    </Grid>
   )
 }
