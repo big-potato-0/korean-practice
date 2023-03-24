@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div>
       <div className={classes.header}>
-        <Typography variant="h2">Directory</Typography>
+        <Typography variant="h2">Dictionary</Typography>
       </div>
       <Card className={classes.card}>
         <CardHeader title="Places" />

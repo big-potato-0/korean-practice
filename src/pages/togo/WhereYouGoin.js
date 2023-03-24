@@ -115,23 +115,24 @@ export default function WhereYouGoin() {
   return (
     <>
       <Typography className={classes.lessonHeader} variant="h2">To Go</Typography>
-      <div className={classes.filtersContainer}>
-        <Accordion >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="filters-content"
-            id="filters-header"
-          >
-            <Typography>Filters</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div>
-              <Typography>TODO</Typography>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-      <Divider/>
+      {/* NEXT FEATURE */}
+      {/* <div className={classes.filtersContainer}> */}
+      {/*  <Accordion > */}
+      {/*    <AccordionSummary */}
+      {/*      expandIcon={<ExpandMoreIcon />} */}
+      {/*      aria-controls="filters-content" */}
+      {/*      id="filters-header" */}
+      {/*    > */}
+      {/*      <Typography>Filters</Typography> */}
+      {/*    </AccordionSummary> */}
+      {/*    <AccordionDetails> */}
+      {/*      <div> */}
+      {/*        <Typography>TODO</Typography> */}
+      {/*      </div> */}
+      {/*    </AccordionDetails> */}
+      {/*  </Accordion> */}
+      {/* </div> */}
+       <Divider/>
       <div className={classes.header}>
         <div className={classes.button}>
           <Button variant="contained" color="primary" onClick={handleQuestionTranslate}>TRANSLATE TO {questionButtonText}</Button>

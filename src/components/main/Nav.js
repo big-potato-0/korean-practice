@@ -163,7 +163,7 @@ export default function Nav({ children }) {
         <NavItem page="/" text="Home" onClick={handleDrawerClose} currentPage={currentPage}/>
         <NavItem page="/togo" text="To Go" onClick={handleDrawerClose} currentPage={currentPage}/>
         <Divider />
-        <NavItem page="/directory" text="Directory" onClick={handleDrawerClose} currentPage={currentPage}/>
+        <NavItem page="/dictionary" text="Dictionary" onClick={handleDrawerClose} currentPage={currentPage}/>
       </Drawer>
       <div
         className={clsx(classes.content, {
