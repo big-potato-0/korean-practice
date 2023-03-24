@@ -5,9 +5,10 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import { Grid, Toolbar, Typography, Divider, IconButton, Drawer } from '@material-ui/core'
+import { Grid, Toolbar, Typography, Divider, IconButton, Drawer, Button, Tooltip } from '@material-ui/core'
 import { colors } from '../../theme/colors'
 import NavItem from './NavItem'
+import GithubIcon from '../../../public/icons/github-mark.png'
 
 const drawerWidth = 240
 
@@ -16,6 +17,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: colors.UNBLEACHED_SILK,
     width: '100%',
     height: theme.spacing(1),
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  hamburger: {
+    display: 'flex',
+  },
+  codeLink: {
+    cursor: 'pointer',
+    height: 30,
+    width: 30,
+  },
+  lessonsLabel: {
+    paddingTop: theme.spacing(1),
   },
   appBar: {
     position: 'sticky',
@@ -107,19 +123,26 @@ export default function Nav({ children }) {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={handleDrawerOpen}
-            edge='start'
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h6' noWrap>
-            Lessons
-          </Typography>
+        <Toolbar className={classes.toolbar}>
+          <div className={classes.hamburger}>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleDrawerOpen}
+              edge='start'
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.lessonsLabel} variant='h6' noWrap>
+              Lessons
+            </Typography>
+          </div>
+          <Tooltip title="see my shitty code lol">
+            <a href="https://github.com/big-potato-0/korean-practice">
+              <img src={GithubIcon.src}  alt="Github" className={classes.codeLink} />
+            </a>
+          </Tooltip>
         </Toolbar>
       </Grid>
       <Drawer

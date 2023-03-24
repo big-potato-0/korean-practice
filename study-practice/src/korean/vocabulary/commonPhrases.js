@@ -1,0 +1,1 @@
+export const I_TOPIC = '저는'

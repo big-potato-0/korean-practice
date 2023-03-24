@@ -17,3 +17,17 @@ export const places = {
   'restaurant': '식당',
   'pharmacy': '약국',
 }
+
+export const people = {
+  'teacher': '',
+  'friend': '',
+}
+
+export const transportation = {
+  'bus': '',
+  'plane': '',
+  'train': '',
+  'subway': '',
+  'car': '',
+  'bike': '',
+}

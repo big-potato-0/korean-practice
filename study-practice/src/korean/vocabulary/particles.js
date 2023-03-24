@@ -1,0 +1,1 @@
+export const LOCATION_PARTICLE_GENERAL = '에'
