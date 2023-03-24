@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { places } from '../../korean/vocabulary/nouns'
 import { Card, CardContent, CardHeader, Divider, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { places } from '../../korean/vocabulary/nouns'
 
 const useStyles = makeStyles((theme) => ({
   container: {
