@@ -33,10 +33,11 @@ export default function Flashcard(props) {
   
   
   return (
-    <div onClick={handleFlip}>
-      <Card className={clsx(classes.flashcard, flashcardLanguage === KOREAN ? classes.korean: classes.english)} >
-        <Typography variant="h4">{flashcardLanguage === KOREAN ? korean : english}</Typography>
-      </Card>
-    </div>
+    <Card
+      onClick={handleFlip}
+      className={clsx(classes.flashcard, flashcardLanguage === KOREAN ? classes.korean: classes.english)}
+    >
+      <Typography variant="h4">{flashcardLanguage === KOREAN ? korean : english}</Typography>
+    </Card>
   )
 }

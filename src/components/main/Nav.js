@@ -5,7 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import { Grid, Toolbar, Typography, Divider, IconButton, Drawer, Button, Tooltip } from '@material-ui/core'
+import { Grid, Toolbar, Typography, Divider, IconButton, Drawer, Button, Tooltip, AppBar } from '@material-ui/core'
 import { colors } from '../../theme/colors'
 import NavItem from './NavItem'
 import GithubIcon from '../../../public/icons/github-mark.png'
@@ -59,12 +59,9 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
   drawerPaper: {
     width: drawerWidth,
+    flexShrink: 0,
   },
   drawerHeader: {
     padding: theme.spacing(0, 1),
@@ -78,24 +75,14 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    // // TODO: i shouldn't have to do this what the heck, only for home dir...
-    // [theme.breakpoints.up('sm')] : {
-    //   marginLeft: -drawerWidth,
-    // },
-    // marginLeft: 0,
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  //   // TODO: same here ^^
-  //   [theme.breakpoints.up('md')] : {
-  //     marginLeft: 0,
-  //   },
-  //   marginLeft: drawerWidth,
-      marginLeft: 0,
+      marginLeft: drawerWidth,
     },
   }
 ))
@@ -118,7 +105,7 @@ export default function Nav({ children }) {
   
   return (
     <Grid container>
-      <Grid item xs={12}
+      <AppBar
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -144,9 +131,8 @@ export default function Nav({ children }) {
             </a>
           </Tooltip>
         </Toolbar>
-      </Grid>
+      </AppBar>
       <Drawer
-        className={classes.drawer}
         variant='persistent'
         anchor='left'
         open={open}
@@ -170,9 +156,7 @@ export default function Nav({ children }) {
           [classes.contentShift]: open,
         })}
       >
-        <div className={classes.drawerHeader}>
           {children}
-        </div>
       </div>
     </Grid>
   )
