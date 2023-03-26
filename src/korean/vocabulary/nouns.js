@@ -19,6 +19,7 @@ export const places = {
   'school': '학교',
 }
 
+// TODO: add more people, add family members
 export const people = {
   'friend': '친구',
   'teacher': '선생님',

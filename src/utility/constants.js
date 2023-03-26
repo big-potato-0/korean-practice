@@ -5,3 +5,4 @@ export const ENGLISH = 'ENGLISH'
 // TO GO
 export const placeCategory = 'placeCategory'
 export const transportationCategory = 'transportationCategory'
+export const peopleCategory = 'peopleCategory'

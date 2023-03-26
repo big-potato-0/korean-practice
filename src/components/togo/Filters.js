@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
-import { placeCategory, transportationCategory } from '../../utility/constants'
+import { peopleCategory, placeCategory, transportationCategory } from '../../utility/constants'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +50,16 @@ export default function Filters(props) {
       <div className={classes.checkboxContainer}>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox color="primary" checked={_.get(tempCategories, placeCategory)} onChange={handleChangeTempCategories} name={placeCategory} />}
-            label="Places"
-          />
-          <FormControlLabel
             control={<Checkbox color="primary" checked={_.get(tempCategories, transportationCategory)} onChange={handleChangeTempCategories} name={transportationCategory} />}
             label="How (transportation)"
+          />
+          <FormControlLabel
+            control={<Checkbox color="primary" checked={_.get(tempCategories, peopleCategory)} onChange={handleChangeTempCategories} name={peopleCategory} />}
+            label="With whom"
+          />
+          <FormControlLabel
+            control={<Checkbox color="primary" checked={_.get(tempCategories, placeCategory)} onChange={handleChangeTempCategories} name={placeCategory} />}
+            label="Places"
           />
         </FormGroup>
       </div>

@@ -1,21 +1,19 @@
 import React from 'react'
 import _ from 'lodash'
-import { Card, CardContent, CardHeader, Divider, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { places } from '../../korean/vocabulary/nouns'
+import { people, places, transportation } from '../../korean/vocabulary/nouns'
+import DictionaryCard from '../../components/dictionary/DictionaryCard'
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-  
-  },
   header: {
     paddingBottom: theme.spacing(2),
   },
-  card: {
-    padding: theme.spacing(2),
-    maxWidth: 300,
-  },
-  definitions: {
+  item: {
+    maxWidth: 320,
+    minWidth: 320,
+    paddingTop: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
 }))
 export default function Home() {
@@ -29,22 +27,29 @@ export default function Home() {
       <div className={classes.header}>
         <Typography variant="h2">Dictionary</Typography>
       </div>
-      <Card className={classes.card}>
-        <CardHeader title="Places" />
-        <Divider/>
-        <CardContent>
-          <div className={classes.definitions}>
-            { placesEnglish.map(placeEnglish => {
-              return <Typography classN>{getDictionaryStr(places, placeEnglish)}</Typography>
-            })}
-          </div>
-        </CardContent>
-      </Card>
+      <Grid container>
+        <Grid item xs className={classes.item}>
+          <DictionaryCard
+            title="Places"
+            englishLst={placesEnglish}
+            dictionary={places}
+          />
+        </Grid>
+        <Grid item xs className={classes.item}>
+          <DictionaryCard
+            title="Transportation"
+            englishLst={_.keys(transportation)}
+            dictionary={transportation}
+          />
+        </Grid>
+        <Grid item xs className={classes.item}>
+          <DictionaryCard
+            title="People"
+            englishLst={_.keys(people)}
+            dictionary={people}
+          />
+        </Grid>
+      </Grid>
     </div>
   )
-}
-
-const getDictionaryStr = (dictionary, key) => {
-  const value = dictionary[key]
-  return `${key}: ${value}`
 }

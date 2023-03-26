@@ -2,14 +2,14 @@ import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Divider, Typography } from '@material-ui/core'
-import { ENGLISH, KOREAN, placeCategory, transportationCategory } from '../../utility/constants'
-import { howYouGettinThere, whereYouGoin } from '../../korean/vocabulary/questions'
-import { places, transportation } from '../../korean/vocabulary/nouns'
+import { ENGLISH, KOREAN, peopleCategory, placeCategory, transportationCategory } from '../../utility/constants'
+import { howYouGettinThere, whereYouGoin, whoYouGoinWith } from '../../korean/vocabulary/questions'
+import { people, places, transportation } from '../../korean/vocabulary/nouns'
 import { I_TOPIC } from '../../korean/vocabulary/commonPhrases'
-import { LOCATION_PARTICLE_GENERAL, WITH_PARTICLE } from '../../korean/vocabulary/particles'
+import { LOCATION_PARTICLE_GENERAL, BY_PARTICLE, getWithParticle } from '../../korean/vocabulary/particles'
 import { TO_GO } from '../../korean/vocabulary/verbs'
-import Flashcard from '../../components/cards/Flashcard'
-import TranslateIconStyled from '../../components/cards/TranslateIconStyled'
+import Flashcard from '../cards/Flashcard'
+import TranslateIconStyled from '../cards/TranslateIconStyled'
 import Filters from './Filters'
 
 const useStyles = makeStyles((theme) => ({
@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   filtersContainer: {
     paddingBottom: theme.spacing(4),
-    // todo maybe make this two flashcards width so it matches up a bit nicer
-    maxWidth: 700,
+    maxWidth: 670,
   },
   header: {
     paddingTop: theme.spacing(4),
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
     },
     display: 'block',
-    maxWidth: 750,
+    maxWidth: 670,
   },
   question: {
     display: 'flex',
@@ -83,17 +82,32 @@ export default function WhereYouGoin() {
   // v1.5 include time option as to-from, have an option for going to from a location
   const placesEnglish = _.keys(places)
   const transportationEnglish = _.keys(transportation)
+  const peopleEnglish = _.keys(people)
   
-  const initialQuestionState = { [placeCategory]: KOREAN, [transportationCategory]: KOREAN }
-  const initialFilterState = { [placeCategory]: true, [transportationCategory]: true }
-  const initialFlashcardState = { [placeCategory]: ENGLISH, [transportationCategory]: ENGLISH }
+  const initialQuestionState = {
+    [placeCategory]: KOREAN,
+    [transportationCategory]: KOREAN ,
+    [peopleCategory]: KOREAN,
+  }
+  const initialFilterState = {
+    [placeCategory]: true,
+    [transportationCategory]: true,
+    [peopleCategory]: true,
+  }
+  const initialFlashcardState = {
+    [placeCategory]: ENGLISH,
+    [transportationCategory]: ENGLISH,
+    [peopleCategory]: ENGLISH,
+  }
+  
   const [questionLanguage, setQuestionLanguage] = useState(initialQuestionState)
   const [fullSentenceLanguage, setFullSentenceLanguage] = useState(ENGLISH)
   const [flashcardLanguage, setFlashcardLanguage] = useState(initialFlashcardState)
-  const [categories, setCategories] = useState(initialFilterState)
   
+  const [categories, setCategories] = useState(initialFilterState)
   // setting this initially with a random int gives a hydration error because it renders multiple times? idfk
   const [flashcardIndexes, setFlashcardIndexes] = useState({})
+  
   const [initialLoad, setInitialLoad] = useState(true)
   
   useEffect(() => {
@@ -104,10 +118,11 @@ export default function WhereYouGoin() {
           ...prev,
           [placeCategory]: getRandomIndex(placesEnglish),
           [transportationCategory]: getRandomIndex(transportationEnglish),
+          [peopleCategory]: getRandomIndex(peopleEnglish),
         }
       })
     }
-  }, [initialLoad, placesEnglish, transportationEnglish])
+  }, [initialLoad, placesEnglish, transportationEnglish, peopleEnglish])
   
   const handleFlashcardFlip = key => {
     let nextLanguage = ENGLISH
@@ -127,7 +142,8 @@ export default function WhereYouGoin() {
     // todo add other categories
     const placeStr = categories[placeCategory] ? ` to the ${placesEnglish[flashcardIndexes[placeCategory]]}` : ''
     const transportStr = categories[transportationCategory] ? ` by ${transportationEnglish[flashcardIndexes[transportationCategory]]}` : ''
-    const endStr = placeStr + transportStr
+    const peopleStr = categories[peopleCategory] ? ` with ${peopleEnglish[flashcardIndexes[peopleCategory]]}` : ''
+    const endStr = placeStr + transportStr + peopleStr
     return `I go${endStr}.`
   }
   
@@ -135,8 +151,9 @@ export default function WhereYouGoin() {
     // todo add other categories
     // todo these long lines are a nightmare, pls shorten
     const placeStr = categories[placeCategory] ? ` ${places[placesEnglish[flashcardIndexes[placeCategory]]]}${LOCATION_PARTICLE_GENERAL}` : ''
-    const transportStr = categories[transportationCategory] ? `  ${transportation[transportationEnglish[flashcardIndexes[transportationCategory]]]}${WITH_PARTICLE}` : ''
-    const middleStr = placeStr + transportStr
+    const transportStr = categories[transportationCategory] ? ` ${transportation[transportationEnglish[flashcardIndexes[transportationCategory]]]}${BY_PARTICLE}` : ''
+    const peopleStr = categories[peopleCategory] ? ` ${people[peopleEnglish[flashcardIndexes[peopleCategory]]]}${getWithParticle(people[peopleEnglish[flashcardIndexes[peopleCategory]]])}` : ''
+    const middleStr = peopleStr + transportStr + placeStr
     return `${I_TOPIC}${middleStr} ${TO_GO.presentTense}.`
   }
   const getFullSentence = () => {
@@ -167,13 +184,12 @@ export default function WhereYouGoin() {
       return {
         ...prev,
         [placeCategory]: getRandomIndex(placesEnglish),
-        [transportationCategory]: getRandomIndex(transportationEnglish)
+        [transportationCategory]: getRandomIndex(transportationEnglish),
+        [peopleCategory]: getRandomIndex(peopleEnglish),
       }
     })
   }
-  
-  // todo when will i find time to refactor lol
-  
+
   return (
     <>
       <Typography className={classes.lessonHeader} variant="h2">To Go</Typography>
@@ -184,16 +200,22 @@ export default function WhereYouGoin() {
       <div className={classes.header}>
         <Typography className={classes.instructions}>Use the individual flashcards to study before answering the following question(s) in a full sentence</Typography>
         <div className={classes.questionText}>
-          { categories[placeCategory] && (
-            <div className={classes.question}>
-              <TranslateIconStyled language={questionLanguage[placeCategory]} onClick={() => handleQuestionTranslate(placeCategory)}/>
-              <Typography className={classes.text} variant="h5">{whereYouGoin[questionLanguage[placeCategory]]}</Typography>
-            </div>
-          )}
           { categories[transportationCategory] && (
             <div className={classes.question}>
               <TranslateIconStyled language={questionLanguage[transportationCategory]} onClick={() => handleQuestionTranslate(transportationCategory)}/>
               <Typography className={classes.text} variant="h5">{howYouGettinThere[questionLanguage[transportationCategory]]}</Typography>
+            </div>
+          )}
+          { categories[peopleCategory] && (
+            <div className={classes.question}>
+              <TranslateIconStyled language={questionLanguage[peopleCategory]} onClick={() => handleQuestionTranslate(peopleCategory)}/>
+              <Typography className={classes.text} variant="h5">{whoYouGoinWith[questionLanguage[peopleCategory]]}</Typography>
+            </div>
+          )}
+          { categories[placeCategory] && (
+            <div className={classes.question}>
+              <TranslateIconStyled language={questionLanguage[placeCategory]} onClick={() => handleQuestionTranslate(placeCategory)}/>
+              <Typography className={classes.text} variant="h5">{whereYouGoin[questionLanguage[placeCategory]]}</Typography>
             </div>
           )}
         </div>
@@ -203,16 +225,6 @@ export default function WhereYouGoin() {
         { _.every(categories, (v, k) => v === false) && (
           <Typography>Please select a category to practice with the verb to go</Typography>
         )}
-        { categories[placeCategory] && (
-          <div className={classes.flashcardPadding}>
-            <Flashcard
-              english={placesEnglish[flashcardIndexes[placeCategory]]}
-              korean={places[placesEnglish[flashcardIndexes[placeCategory]]]}
-              flashcardLanguage={flashcardLanguage[placeCategory]}
-              handleFlip={() => handleFlashcardFlip(placeCategory)}
-            />
-          </div>
-        )}
         { categories[transportationCategory] && (
           <div className={classes.flashcardPadding}>
             <Flashcard
@@ -220,6 +232,26 @@ export default function WhereYouGoin() {
               korean={transportation[transportationEnglish[flashcardIndexes[transportationCategory]]]}
               flashcardLanguage={flashcardLanguage[transportationCategory]}
               handleFlip={() => handleFlashcardFlip(transportationCategory)}
+            />
+          </div>
+        )}
+        { categories[peopleCategory] && (
+          <div className={classes.flashcardPadding}>
+            <Flashcard
+              english={peopleEnglish[flashcardIndexes[peopleCategory]]}
+              korean={people[peopleEnglish[flashcardIndexes[peopleCategory]]]}
+              flashcardLanguage={flashcardLanguage[peopleCategory]}
+              handleFlip={() => handleFlashcardFlip(peopleCategory)}
+            />
+          </div>
+        )}
+        { categories[placeCategory] && (
+          <div className={classes.flashcardPadding}>
+            <Flashcard
+              english={placesEnglish[flashcardIndexes[placeCategory]]}
+              korean={places[placesEnglish[flashcardIndexes[placeCategory]]]}
+              flashcardLanguage={flashcardLanguage[placeCategory]}
+              handleFlip={() => handleFlashcardFlip(placeCategory)}
             />
           </div>
         )}
