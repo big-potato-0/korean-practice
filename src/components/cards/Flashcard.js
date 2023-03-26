@@ -6,10 +6,11 @@ import { Card, Typography } from '@material-ui/core'
 import { colors } from '../../theme/colors'
 import { ENGLISH, KOREAN } from '../../utility/constants'
 
+export const FLASHCARD_WIDTH = 400
 
 const useStyles = makeStyles((theme) => ({
   flashcard: {
-    maxWidth: 400,
+    width: FLASHCARD_WIDTH,
     minHeight: 200,
     display: 'flex',
     justifyContent: 'center',

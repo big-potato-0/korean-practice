@@ -122,7 +122,7 @@ export default function Nav({ children }) {
               <MenuIcon />
             </IconButton>
             <Typography className={classes.lessonsLabel} variant='h6' noWrap>
-              Lessons
+              Menu
             </Typography>
           </div>
           <Tooltip title="see my shitty code lol">
