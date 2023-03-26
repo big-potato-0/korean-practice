@@ -6,7 +6,7 @@ import { Card, Typography } from '@material-ui/core'
 import { colors } from '../../theme/colors'
 import { ENGLISH, KOREAN } from '../../utility/constants'
 
-export const FLASHCARD_WIDTH = 400
+export const FLASHCARD_WIDTH = 342
 
 const useStyles = makeStyles((theme) => ({
   flashcard: {

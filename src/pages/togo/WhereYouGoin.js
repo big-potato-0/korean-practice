@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   filtersContainer: {
     paddingBottom: theme.spacing(4),
     // todo maybe make this two flashcards width so it matches up a bit nicer
-    maxWidth: 750,
+    maxWidth: 700,
   },
   header: {
     paddingTop: theme.spacing(4),
