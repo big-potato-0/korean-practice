@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import * as Hangul from 'hangul-js'
 
 export const vowels = [
   'ㅏ',
@@ -14,5 +15,6 @@ export const vowels = [
 ]
 
 export const getLastCharacter = koreanWord => {
-  return _.last(Array.from(koreanWord.normalize('NFD')))
+  const arr = Hangul.disassemble(koreanWord)
+  return _.last(arr)
 }
