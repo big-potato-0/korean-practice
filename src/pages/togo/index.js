@@ -3,8 +3,6 @@ import WhereYouGoin from './WhereYouGoin'
 
 export default function Home() {
   return (
-    <>
       <WhereYouGoin />
-    </>
   )
 }

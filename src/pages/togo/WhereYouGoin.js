@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, Button, Divider } from '@material-ui/core'
-import { ENGLISH, KOREAN } from '../../utility/constants'
+import { Button, Divider, Typography } from '@material-ui/core'
+import { ENGLISH, KOREAN, placeCategory, transportationCategory } from '../../utility/constants'
 import { howYouGettinThere, whereYouGoin } from '../../korean/vocabulary/questions'
 import { places, transportation } from '../../korean/vocabulary/nouns'
 import { I_TOPIC } from '../../korean/vocabulary/commonPhrases'
@@ -76,9 +76,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(10),
   },
 }))
-
-export const placeCategory = 'placeCategory'
-export const transportationCategory = 'transportationCategory'
 
 export default function WhereYouGoin() {
   const classes = useStyles()

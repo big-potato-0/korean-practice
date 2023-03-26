@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Accordion,
   AccordionDetails,
@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
-import { placeCategory, transportationCategory } from './WhereYouGoin'
+import { placeCategory, transportationCategory } from '../../utility/constants'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,11 +50,11 @@ export default function Filters(props) {
       <div className={classes.checkboxContainer}>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox color="primary" checked={tempCategories[placeCategory]} onChange={handleChangeTempCategories} name={placeCategory} />}
+            control={<Checkbox color="primary" checked={_.get(tempCategories, placeCategory)} onChange={handleChangeTempCategories} name={placeCategory} />}
             label="Places"
           />
           <FormControlLabel
-            control={<Checkbox color="primary" checked={tempCategories[transportationCategory]} onChange={handleChangeTempCategories} name={transportationCategory} />}
+            control={<Checkbox color="primary" checked={_.get(tempCategories, transportationCategory)} onChange={handleChangeTempCategories} name={transportationCategory} />}
             label="How (transportation)"
           />
         </FormGroup>
